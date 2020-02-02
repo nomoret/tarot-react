@@ -28,6 +28,34 @@ const shuffle = array => {
   return result;
 };
 
+export const createDeck = deckCount => {
+  console.log(deckCount);
+  const pretendCardList = Array(78)
+    .fill()
+    .map((v, i) => i);
+
+  let shuffleList = shuffle(pretendCardList);
+
+  let result = [];
+  for (let index = 0; index < deckCount; index++) {
+    const random = Math.floor(Math.random() * shuffleList.length);
+    console.log("뽑은 카드 번호 : ", random);
+    const select = shuffleList.splice(random, 1)[0];
+    console.log("뽑은 카드 진짜 번호 : ", select);
+
+    const direction = Math.floor(Math.random() * 2) ? true : false;
+
+    const card = {
+      number: select,
+      direction
+    };
+
+    result.push(card);
+  }
+
+  return result;
+};
+
 const Random = max => {
   const [cardList, setCardList] = useState([]);
   const [redraw, setRedraw] = useState(false);

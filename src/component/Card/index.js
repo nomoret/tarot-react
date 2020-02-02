@@ -1,6 +1,7 @@
-import React, { useRef, useEffect, useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { CardImageList, MajorInfo } from "../../data/deck";
+import { SELECT_CARD_REQUEST } from "../../redux/reducer/cards";
 
 const Card = ({ number, direction, select }) => {
   const [open, setOpen] = useState(false);
@@ -11,19 +12,11 @@ const Card = ({ number, direction, select }) => {
     setOpen(!open);
     if (select) {
       dispatch({
-        type: "SELECT_CARD",
+        type: SELECT_CARD_REQUEST,
         data: number
       });
     }
-  }, [open, number, select]);
-
-  // const ref = useRef(number);
-
-  // useEffect(() => {
-  //   console.log(ref.current, number);
-  // }, [open, number, select]);
-
-  console.log("card", number);
+  }, [open, number, select, dispatch]);
 
   return (
     <div
@@ -51,6 +44,7 @@ const Card = ({ number, direction, select }) => {
             height="400px"
           />
           <span>{`카드 번호 - ${number}`}</span>
+          {direction ? <p>정방향</p> : <p>정방향</p>}
           <p>{`${MajorInfo[number % 22].title}`}</p>
           <p>{`${MajorInfo[number % 22].content}`}</p>
         </>

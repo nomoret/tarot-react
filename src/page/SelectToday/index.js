@@ -1,40 +1,60 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
+import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import Card from "../../component/Card";
-import Random from "../../utils/random";
+import {
+  CREATE_SHUFFLE_DECK_REQUEST,
+  CLEAR_CARD_REQUEST,
+  REDRAW_DECK_REQUEST
+} from "../../redux/reducer/cards";
+
+const CardPanel = styled.div`
+  position: relative;
+  margin-left: 10px;
+  display: flex;
+  height: 100%;
+  overflow-x: auto;
+`;
+
+const DetailTitle = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 const SelectToday = () => {
-  const { cardList } = Random(78);
-  const { selectList } = useSelector(state => state);
+  const { cardList, selectList, isShuffledDeck } = useSelector(state => state);
 
   const dispatch = useDispatch();
   useEffect(() => {
-    if (selectList.length === 3) {
-      const confirmValue = window.confirm("카드 3장 선택했습니다.");
-      console.log(confirmValue);
-      if (confirmValue) {
-        dispatch({
-          type: "CLEAR_CARD"
-        });
+    dispatch({
+      type: CREATE_SHUFFLE_DECK_REQUEST,
+      data: {
+        deckCount: 78,
+        selectCount: 3
       }
-    }
-  }, [selectList, dispatch]);
+    });
+
+    return () =>
+      dispatch({
+        type: CLEAR_CARD_REQUEST
+      });
+  }, []);
+
+  const redrawDeck = useCallback(() => {
+    dispatch({
+      type: REDRAW_DECK_REQUEST
+    });
+  }, []);
 
   return (
     <div>
-      <span>3 card</span>
-      <div>과거,현재,미래 - 카드 3장을 선택하시오</div>
-      <div
-        style={{
-          position: "absolute",
-          marginLeft: "10px",
-          display: "flex",
-          justifyContent: "space-around",
-          overflowX: "auto",
-          overflowY: "scroll"
-        }}
-      >
-        {cardList &&
+      <DetailTitle>
+        <span>3장의 카드</span>
+        <span>과거,현재,미래 - 카드 3장을 선택하시오</span>
+      </DetailTitle>
+      <CardPanel>
+        {isShuffledDeck &&
+          cardList &&
           cardList.map(({ number, direction }) => (
             <Card
               key={number}
@@ -43,8 +63,8 @@ const SelectToday = () => {
               select={true}
             />
           ))}
-      </div>
-      <button>다시뽑기</button>
+      </CardPanel>
+      <button onClick={redrawDeck}>다시뽑기</button>
     </div>
   );
 };
