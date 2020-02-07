@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Navigation from "../Navigation";
 import SimpleToday from "../../page/SimpleToday";
 import DetailToday from "../../page/DetailToday";
@@ -18,8 +18,10 @@ const AppHeader = styled.header`
 `;
 
 const Main = styled.main`
-  background-image: linear-gradient(180deg, hsla(0, 0%, 100%, 0) 60%, #fff),
-    linear-gradient(70deg, #dbedff 32%, #ebfff0);
+  height: 100vh;
+  max-height: 500vh;
+  background-image: linear-gradient(180deg, hsla(0, 0%, 100%, 0) 60%, #1a37a5),
+    linear-gradient(180deg, #000000 82%, #1a37a5);
 `;
 
 function App() {
@@ -35,14 +37,29 @@ function App() {
       <Main>
         <Router>
           <Navigation />
-          <Route path="/today" component={SimpleToday} />
-          <Route path="/detail" component={DetailToday} />
-          <Route path="/todo" component={Thought} />
-          <Route path="/select" component={SelectToday} />
+          <Switch>
+            <Route path="/today" component={SimpleToday} />
+            <Route path="/detail" component={DetailToday} />
+            <Route path="/todo" component={Thought} />
+            <Route path="/select" component={SelectToday} />
+            <Route path="/" component={Home} />
+          </Switch>
         </Router>
       </Main>
     </>
   );
 }
+
+const HomeDiv = styled.div`
+  z-index: 32;
+  padding: 16px;
+  height: 50vh;
+  margin-top: 50px;
+  text-align: center;
+  font-size: 28px;
+  color: hsla(0, 0%, 100%, 0.7);
+`;
+
+const Home = () => <HomeDiv>홈 화면입니다</HomeDiv>;
 
 export default App;

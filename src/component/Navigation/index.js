@@ -8,7 +8,7 @@ const Navi = styled.div`
 
 const NaviItem = styled.button`
   margin-left: 10px;
-  width: 128px;
+  width: 160px;
   height: 64px;
   border: 1px solid rgba(27, 31, 35, 0.2);
   border-color: white;
