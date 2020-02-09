@@ -39,11 +39,9 @@ export const createDeck = deckCount => {
   let result = [];
   for (let index = 0; index < deckCount; index++) {
     const random = Math.floor(Math.random() * shuffleList.length);
-    console.log("뽑은 카드 번호 : ", random);
     const select = shuffleList.splice(random, 1)[0];
-    console.log("뽑은 카드 진짜 번호 : ", select);
 
-    const direction = Math.floor(Math.random() * 2) ? true : false;
+    const direction = Math.floor(Math.random() * 2) === 0 ? true : false;
 
     const card = {
       number: select,
